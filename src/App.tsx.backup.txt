@@ -1,0 +1,97 @@
+import { useState } from 'react';
+
+function App() {
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [leads, setLeads] = useState([]);
+  const [newLead, setNewLead] = useState({ name: '', email: '', phone: '' });
+
+  const addLead = () => {
+    if (newLead.name && newLead.email) {
+      setLeads([...leads, { ...newLead, id: Date.now() }]);
+      setNewLead({ name: '', email: '', phone: '' });
+      alert('Lead adicionado com sucesso!');
+    }
+  };
+
+  return (
+    <div style={{ fontFamily: 'Arial', minHeight: '100vh', background: '#f3f4f6' }}>
+      <header style={{ background: 'white', padding: '1rem 2rem', borderBottom: '1px solid #e5e7eb' }}>
+        <h1 style={{ margin: 0, color: '#2563eb' }}>Meu CRM Imobiliario</h1>
+      </header>
+
+      <nav style={{ background: 'white', padding: '1rem 2rem', borderBottom: '1px solid #e5e7eb' }}>
+        <div style={{ display: 'flex', gap: '1rem' }}>
+          <button
+            onClick={() => setActiveTab('dashboard')}
+            style={{
+              background: activeTab === 'dashboard' ? '#2563eb' : 'transparent',
+              color: activeTab === 'dashboard' ? 'white' : '#374151',
+              border: '1px solid #d1d5db',
+              padding: '0.5rem 1rem',
+              borderRadius: '6px',
+              cursor: 'pointer'
+            }}
+          >
+            Dashboard
+          </button>
+          <button
+            onClick={() => setActiveTab('leads')}
+            style={{
+              background: activeTab === 'leads' ? '#2563eb' : 'transparent',
+              color: activeTab === 'leads' ? 'white' : '#374151',
+              border: '1px solid #d1d5db',
+              padding: '0.5rem 1rem',
+              borderRadius: '6px',
+              cursor: 'pointer'
+            }}
+          >
+            Gerenciar Leads
+          </button>
+        </div>
+      </nav>
+
+      <div style={{ padding: '2rem' }}>
+        {activeTab === 'dashboard' && (
+          <div style={{ background: 'white', padding: '2rem', borderRadius: '8px' }}>
+            <h2>Dashboard</h2>
+            <p>Total de Leads: {leads.length}</p>
+          </div>
+        )}
+
+        {activeTab === 'leads' && (
+          <div style={{ background: 'white', padding: '2rem', borderRadius: '8px' }}>
+            <h2>Gerenciar Leads</h2>
+            <div style={{ marginBottom: '1rem' }}>
+              <input
+                type="text"
+                placeholder="Nome"
+                value={newLead.name}
+                onChange={(e) => setNewLead({...newLead, name: e.target.value})}
+                style={{ marginRight: '0.5rem', padding: '0.5rem' }}
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                value={newLead.email}
+                onChange={(e) => setNewLead({...newLead, email: e.target.value})}
+                style={{ marginRight: '0.5rem', padding: '0.5rem' }}
+              />
+              <button onClick={addLead} style={{ background: 'green', color: 'white', padding: '0.5rem 1rem', border: 'none' }}>
+                Adicionar Lead
+              </button>
+            </div>
+            <div>
+              {leads.map(lead => (
+                <div key={lead.id} style={{ padding: '0.5rem', borderBottom: '1px solid #eee' }}>
+                  <strong>{lead.name}</strong> - {lead.email}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default App;
