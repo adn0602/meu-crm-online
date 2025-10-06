@@ -1,7 +1,0 @@
-{
-  "scripts": {
-    "dev": "vite",
-    "build": "npx --yes vite build",
-    "preview": "vite preview"
-  }
-}
